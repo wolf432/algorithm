@@ -18,8 +18,8 @@ func newSearchTree(data int) *SearchTree {
 	}
 }
 
-func (t *SearchTree) insert(data int){
-	p := t
+func (root *SearchTree) insert(data int){
+	p := root
 	for p != nil{
 		if data > p.data{
 			if p.right == nil {
@@ -37,8 +37,8 @@ func (t *SearchTree) insert(data int){
 	}
 }
 
-func (t *SearchTree) delete(data int) bool{
-	p := t //指向要删除的节点，初始化指向根节点
+func (root *SearchTree) delete(data int) bool{
+	p := root          //指向要删除的节点，初始化指向根节点
 	var pp *SearchTree //记录的是p的父节点
 
 	for p != nil && p.data != data{
@@ -77,7 +77,7 @@ func (t *SearchTree) delete(data int) bool{
 	}
 
 	if pp == nil{ //要删除的是根节点
-		t = child
+		root = child
 	}else if pp.left == p{
 		pp.left = child
 	}else{
@@ -86,8 +86,8 @@ func (t *SearchTree) delete(data int) bool{
 	return true
 }
 
-func (t *SearchTree) find(data int) (*SearchTree, bool){
-	p := t
+func (root *SearchTree) find(data int) (*SearchTree, bool){
+	p := root
 	for p != nil{
 		if data < p.data{
 			p = p.left
@@ -102,47 +102,59 @@ func (t *SearchTree) find(data int) (*SearchTree, bool){
 
 
 //前序遍历:即直接按照我们对结点的访问顺序输出遍历结果即实现，父结点值被最先输出
-func (t *SearchTree) preOrder() {
-	fmt.Println(t.data)
-	if t.left != nil{
-		t.left.preOrder()
+func (root *SearchTree) preOrder() {
+	fmt.Println(root.data)
+	if root.left != nil{
+		root.left.preOrder()
 	}
-	if t.right != nil{
-		t.right.preOrder()
+	if root.right != nil{
+		root.right.preOrder()
 	}
 }
 
 //中序遍历:左孩子值最先输出，然后是父结点，最后是右孩子
-func (t *SearchTree) inOrder(){
-	if t.left != nil{
-		t.left.preOrder()
+func (root *SearchTree) inOrder(){
+	if root.left != nil{
+		root.left.preOrder()
 	}
-	fmt.Println(t.data)
-	if t.right != nil{
-		t.right.preOrder()
+	fmt.Println(root.data)
+	if root.right != nil{
+		root.right.preOrder()
 	}
 }
 
 //后序遍历：左右孩子值依次输出，最后是父结点
-func (t *SearchTree) postOrder(){
-	if t.left != nil{
-		t.left.preOrder()
+func (root *SearchTree) postOrder(){
+	if root.left != nil{
+		root.left.preOrder()
 	}
-	if t.right != nil{
-		t.right.preOrder()
+	if root.right != nil{
+		root.right.preOrder()
 	}
-	fmt.Println(t.data)
+	fmt.Println(root.data)
 }
 
 
 func main() {
-	top := newSearchTree(10)
-	top.insert(12)
-	top.insert(5)
-	top.insert(4)
-	top.insert(14)
+	root := newSearchTree(4)
 
+	root.left = newSearchTree(2)
+	root.right = newSearchTree(7)
 
-	top.inOrder()
+	root.left.left = newSearchTree(1)
+	root.left.right = newSearchTree(3)
+	root.right.left = newSearchTree(6)
+	root.right.right = newSearchTree(9)
 
+	sort(root)
+}
+
+func sort(root *SearchTree){
+	if root == nil{
+		return
+	}
+
+	sort(root.left)
+	fmt.Println(root.data)
+	sort(root.right)
 }
