@@ -1,63 +1,33 @@
 <?php
 
-class QuickSort{
-    private $data = [];
-
-    function __construct($data){
-        $this->data = $data;
+/**
+ * 快速排序
+ * 时间复杂度：O(N*lgN)
+ * 思路:从数组中选择一个基准值
+ * 将数组中大于基准值的放同一边、小于基准值的放另一边，基准值位于中间位置
+ * 递归的对分列两边的数组再排序
+ * @param $arr
+ */
+function quick_sort($arr){
+    $len = count($arr);
+    if($len < 2 ){
+        return $arr;
     }
-
-    function sort(){
-        if (empty($this->data)){
-            return [];
+    $val = $arr[0]; //获取一个基准值
+    $left = $right = [];
+    for($i = 1; $i < $len; $i++){ //循环数组，按照基准值大小把元素分类
+        if($arr[$i] < $val){
+            $left[] = $arr[$i];
+        }else{
+            $right[] = $arr[$i];
         }
-        $this->_sort(0, count($this->data) - 1);
-        return $this->data;
     }
+    $left = quick_sort($left);
+    $right = quick_sort($right);
 
-    /**
-     * 排序
-     */
-    private function _sort($left, $right){
-        //只剩下一个数表示已经排序好了
-        if ($left >= $right){
-            return '';
-        }
-        //按照基准数排序好
-        $partition = $this->_partition($left, $right);
-        //基准数左边进行排序
-        $this->_sort($left, $partition - 1);
-        //基准数右边进行排序
-        $this->_sort($partition + 1, $right);
-    }
-
-    /**
-     * 以第一个值为基准数，进行比较排序
-     * 大于基准数的，放到基准数的右边
-     * 小于基准数的，放到基准数的左边
-     */
-    private function _partition($left, $right){
-        $pivote = $left;
-        $index = $pivote + 1;
-        for($i = $index; $i <= $right; $i++){
-            if ($this->data[$i] < $this->data[$pivote]){
-                $this->_swap($i, $index);
-                $index++;
-            }
-        }
-        $this->_swap($index - 1, $pivote);
-        return $index - 1;
-    }
-
-    /**
-     * 交换数组中的值
-     */
-    private function _swap($first, $sencond){
-        $tmp = $this->data[$first];
-        $this->data[$first] = $this->data[$sencond];
-        $this->data[$sencond] = $tmp;
-    }
+    return array_merge($left,[$val],$right);
 }
 
-$quickSork = new QuickSort([6,11,3,9,8]);
-print_r($quickSork->sort());
+$data = [3,5,4,1,2,6];
+$data = quick_sort($data);
+print_r($data);
