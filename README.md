@@ -16,4 +16,6 @@
 - 8-5：
   - 数组:[sortedSquares.go](./数组/sortedSquares.go)
 - 8-29
-  - 数组:二分查找[]
+  - 数组:二分查找[binarySearch.go](./数组/binarySearch.go)
+- 8-30
+  - 数组:移除元素[removeElement.go](./数组/removeElement.go)
